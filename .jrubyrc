@@ -1,0 +1,4 @@
+compat.version=2.2
+errno.backtrace=true
+compile.fastest=true
+cli.debug=true

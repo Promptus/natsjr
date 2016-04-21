@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - jruby-9.0.5.0
+jdk:
+  - oraclejdk8
+before_install:
+  - gem install lock_jar
+  - lockjar install
+  - lockjar lock
+addons:
+  code_climate:
+    repo_token: 6a57b9c9b3d57f7e912494e3ebffd74438810f6455b84d15a97c3b0c6cefbf7d

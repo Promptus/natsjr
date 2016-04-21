@@ -1,0 +1,45 @@
+require "java"
+
+module NatsJr
+  module Connector
+    java_import "java.net.URI"
+
+    class << self
+      def call_disconnect(e)
+        NatsJr.logger.info "Disconnected from #{e.connection.currentServer}!"
+      end
+
+      def call_reconnect(e)
+        NatsJr.logger.info "Reconnected to #{e.connection.currentServer}!"
+      end
+
+      def call_closed(e)
+        NatsJr.logger.info "Connection to #{e.connection.currentServer} closed!"
+      end
+
+      def connect!(cf)
+        connection = cf.create_connection
+        connection.set_disconnected_callback { |e| call_disconnect(e) }
+        connection.set_reconnected_callback { |e| call_reconnect(e) }
+        connection.set_closed_callback { |e| call_closed(e) }
+
+        connection.subscribe(subject, NatsJr.group) do |msg|
+          NatsJr::Router.invoke_route(connection, msg)
+        end
+      end
+
+      def invoke(cf)
+        cf.set_servers(servers)
+        NatsJr.handler_count.times { connect!(cf) }
+      end
+
+      def servers
+        NatsJr.nats_servers.map { |n| URI.new("nats://#{n}") }
+      end
+
+      def subject
+        "#{NatsJr.namespace_with_separator}*"
+      end
+    end
+  end
+end

@@ -1,0 +1,18 @@
+---
+version: 0.15.0
+groups:
+  default:
+    dependencies:
+    - io.nats:jnats:jar:0.4.1
+    - log4j:log4j:jar:1.2.17
+    - org.slf4j:slf4j-api:jar:1.7.21
+    - org.slf4j:slf4j-log4j12:jar:1.7.21
+    artifacts:
+    - jar:io.nats:jnats:jar:0.4.1:
+        transitive: {}
+    - jar:org.slf4j:slf4j-log4j12:jar:1.7.21:
+        transitive:
+          log4j:log4j:jar:1.2.17: {}
+          org.slf4j:slf4j-api:jar:1.7.21: {}
+remote_repositories:
+- http://repo1.maven.org/maven2/

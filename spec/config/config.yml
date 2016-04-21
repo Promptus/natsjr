@@ -1,0 +1,3 @@
+test:
+  namespace: "foo"
+  namespace_separator: ":"
