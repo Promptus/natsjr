@@ -35,11 +35,9 @@ describe NatsJr::Router do
   end
 
   describe "#invoke_route" do
-    let(:connection) { double("Connection") }
     let(:message) { double("Message") }
 
     before do
-      allow(connection).to receive(:publish)
       allow(message).to receive(:subject) { "foo:bar" }
       allow(message).to receive(:get_reply_to) { "INBOX:foo" }
       allow(message).to receive(:data) { byte(hello: "world") }

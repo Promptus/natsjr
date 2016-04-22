@@ -16,3 +16,17 @@ require 'natsjr'
 def byte(str)
   NatsJr::JString.new(MultiJson.dump(str)).get_bytes
 end
+
+RSpec.configure do |config|
+  def connection
+    @connection ||= begin
+      c = double("Connection")
+      allow(c).to receive(:publish)
+      allow(c).to receive(:set_disconnected_callback)
+      allow(c).to receive(:set_reconnected_callback)
+      allow(c).to receive(:set_closed_callback)
+      allow(c).to receive(:subscribe)
+      c
+    end
+  end
+end

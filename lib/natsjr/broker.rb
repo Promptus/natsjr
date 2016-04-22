@@ -14,6 +14,34 @@ module NatsJr
     end
 
     class << self
+      def invoke(cf)
+        cf.set_servers(servers)
+        NatsJr.handler_count.times { @connections << subscribe(cf) }
+      end
+
+      def servers
+        NatsJr.nats_servers.map { |n| URI.new("nats://#{n}") }
+      end
+
+      def subject
+        "#{NatsJr.namespace_with_separator}*"
+      end
+
+      private
+
+      def subscribe(cf)
+        connection = cf.create_connection
+        connection.set_disconnected_callback { |e| call_disconnect(e) }
+        connection.set_reconnected_callback { |e| call_reconnect(e) }
+        connection.set_closed_callback { |e| call_closed(e) }
+
+        connection.subscribe(subject, NatsJr.group) do |msg|
+          NatsJr::Router.invoke_route(connection, msg)
+        end
+
+        connection
+      end
+
       def call_disconnect(e)
         NatsJr.logger.debug "Disconnected from #{e.connection.currentServer}!"
       end
@@ -24,32 +52,6 @@ module NatsJr
 
       def call_closed(e)
         NatsJr.logger.debug "Connection to #{e.connection.currentServer} closed!"
-      end
-
-      def connect!(cf)
-        connection = cf.create_connection
-        connection.set_disconnected_callback { |e| call_disconnect(e) }
-        connection.set_reconnected_callback { |e| call_reconnect(e) }
-        connection.set_closed_callback { |e| call_closed(e) }
-
-        connection.subscribe(subject, NatsJr.group) do |msg|
-          NatsJr::Router.invoke_route(connection, msg)
-        end
-
-        @connections << connection
-      end
-
-      def invoke(cf)
-        cf.set_servers(servers)
-        NatsJr.handler_count.times { connect!(cf) }
-      end
-
-      def servers
-        NatsJr.nats_servers.map { |n| URI.new("nats://#{n}") }
-      end
-
-      def subject
-        "#{NatsJr.namespace_with_separator}*"
       end
     end
   end
