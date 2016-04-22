@@ -4,17 +4,26 @@ module NatsJr
   module Broker
     java_import "java.net.URI"
 
+    @connections = []
+
+    at_exit do
+      @connections.each do |connection|
+        NatsJr.logger.debug "Closing connection #{connection}!"
+        connection.close
+      end
+    end
+
     class << self
       def call_disconnect(e)
-        NatsJr.logger.info "Disconnected from #{e.connection.currentServer}!"
+        NatsJr.logger.debug "Disconnected from #{e.connection.currentServer}!"
       end
 
       def call_reconnect(e)
-        NatsJr.logger.info "Reconnected to #{e.connection.currentServer}!"
+        NatsJr.logger.debug "Reconnected to #{e.connection.currentServer}!"
       end
 
       def call_closed(e)
-        NatsJr.logger.info "Connection to #{e.connection.currentServer} closed!"
+        NatsJr.logger.debug "Connection to #{e.connection.currentServer} closed!"
       end
 
       def connect!(cf)
@@ -26,6 +35,8 @@ module NatsJr
         connection.subscribe(subject, NatsJr.group) do |msg|
           NatsJr::Router.invoke_route(connection, msg)
         end
+
+        @connections << connection
       end
 
       def invoke(cf)

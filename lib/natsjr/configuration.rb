@@ -7,7 +7,7 @@ module NatsJr
     end
 
     def root
-      File.dirname($PROGRAM_NAME)
+      @root ||= File.dirname($PROGRAM_NAME)
     end
 
     def config
