@@ -18,7 +18,7 @@ module NatsJr
       end
 
       def run!
-        Connector.invoke(ConnectionFactory.new)
+        Broker.invoke(ConnectionFactory.new)
       end
     end
   end

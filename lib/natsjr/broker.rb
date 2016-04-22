@@ -1,7 +1,7 @@
 require "java"
 
 module NatsJr
-  module Connector
+  module Broker
     java_import "java.net.URI"
 
     class << self
