@@ -1,13 +1,17 @@
 module NatsJr
   module Configuration
+    attr_accessor :logger
+
     def env
       (ENV['NATSJR_ENV'] || "development").freeze
     end
 
+    def root
+      File.dirname($PROGRAM_NAME)
+    end
+
     def config
-      @config ||= YAML.load_file(
-        File.dirname($PROGRAM_NAME) + "/config/config.yml"
-      )[env].freeze
+      @config ||= YAML.load_file("#{root}/config/config.yml")[env].freeze
     end
 
     def group
