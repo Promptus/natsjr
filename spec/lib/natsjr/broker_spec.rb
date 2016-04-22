@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe NatsJr::Broker do
+  after { subject.instance_variable_set(:@connections, [])}
+
   describe "#invoke" do
     let!(:cf) { double("CodeFactory") }
 

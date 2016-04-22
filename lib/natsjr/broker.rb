@@ -8,8 +8,8 @@ module NatsJr
 
     at_exit do
       @connections.each do |connection|
-        NatsJr.logger.debug "Closing connection #{connection}!"
         connection.close
+        NatsJr.logger.debug "Closing connection #{connection}!"
       end
     end
 
@@ -51,7 +51,9 @@ module NatsJr
       end
 
       def call_closed(e)
-        NatsJr.logger.debug "Connection to #{e.connection.currentServer} closed!"
+        NatsJr.logger.debug(
+          "Connection to #{e.connection.currentServer} closed!"
+        )
       end
     end
   end
