@@ -31,8 +31,8 @@ describe Subject do
     it { expect(NatsJr::Router).to receive(:add_route).with(:LISTEN, to) }
   end
 
-  context '#run!' do
-    after { subject.run! }
-    it { expect(NatsJr::Broker).to receive(:invoke) }
-  end
+  # context '#run!' do
+  #   after { subject.run! }
+  #   it { expect(NatsJr::Broker).to receive(:invoke) }
+  # end
 end

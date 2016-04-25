@@ -18,7 +18,11 @@ module NatsJr
       end
 
       def run!
-        Broker.invoke(ConnectionFactory.new)
+        n = Broker.invoke(ConnectionFactory.new)
+        puts <<-LOG
+  Service started!
+  Listening on #{NatsJr.nats_servers.join(" ")} using #{n * 2} connections
+LOG
       end
     end
   end

@@ -8,6 +8,7 @@ module NatsJr
   java_import("java.lang.String") { |_, name| "J#{name}" }
   java_import "java.util.Collections"
   java_import "java.util.HashMap"
+  java_import "java.util.ArrayList"
 
   lockfile = File.expand_path("../../../Jarfile.lock", __FILE__)
   LockJar.install(lockfile)
