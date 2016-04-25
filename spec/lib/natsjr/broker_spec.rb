@@ -13,6 +13,13 @@ describe NatsJr::Broker do
 
     it do
       expect(subject.invoke(cf)).to eq(NatsJr.handler_count)
+      expect(connection).to(
+        receive(:subscribe).with(subject.subject, NatsJr.group)
+      )
+    end
+
+    after do
+      subject.invoke(cf)
     end
   end
 

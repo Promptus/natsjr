@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Promptus/natsjr.svg?branch=master)](https://travis-ci.org/Promptus/natsjr)
 [![Code Climate](https://codeclimate.com/github/Promptus/natsjr/badges/gpa.svg)](https://codeclimate.com/github/Promptus/natsjr)
+[![Test Coverage](https://codeclimate.com/github/Promptus/natsjr/badges/coverage.svg)](https://codeclimate.com/github/Promptus/natsjr/coverage)
 
 This is a tiny microframework built on top of the NATS message queue.
 
