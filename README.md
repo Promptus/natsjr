@@ -36,7 +36,7 @@ development:                   # Environment
     - "0.0.0.0:4222"
 ```
 
-All keys are others are optional and fall back to sensible augmented defaults.
+All keys are optional and fall back to sensible augmented defaults.
 
 
 ```ruby
@@ -62,7 +62,7 @@ end
 MyService.run!
 ```
 
-## To be done
+## To be done... maybe?
 
 □ Introduce namespace call #1
 
